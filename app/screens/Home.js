@@ -1,10 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, Dimensions, StatusBar, SafeAreaView, Button, Platform, TextInput, ImageBackground, TouchableOpacity  } from 'react-native';
+import { View, StyleSheet, Text, Dimensions, StatusBar, SafeAreaView, Button, Platform, TextInput, ImageBackground, TouchableOpacity } from 'react-native';
 
 
 
-function Home({navigation}) {
+function Home({ navigation }) {
 
 
     const handleLogin = () => {
@@ -16,55 +16,70 @@ function Home({navigation}) {
     }
 
     return (
-            <ImageBackground style={styles.backgroundImage} source={require('../img/bg.jpeg')}>
-                <SafeAreaView style={styles.background}>
-                    <TouchableOpacity style={styles.registerButton} onPress={()=> navigation.navigate("Register")}>
+        <View style={styles.backgroundImage}>
+            <SafeAreaView style={styles.background}>
+                <View style={styles.wrapper}>
+                    <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate("Register")}>
                         <Text style={styles.buttonText}>Create Account</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.loginButton} onPress={()=> navigation.navigate("Login")}>
+                    <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate("Login")}>
                         <Text style={styles.buttonText}>Login</Text>
                     </TouchableOpacity>
-                </SafeAreaView>
-            </ImageBackground>
+                </View>
+            </SafeAreaView>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    backgroundImage:{
-        flex:1,
+    wrapper: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 5
     },
-    buttonText:{
-        color:'white'
+    backgroundImage: {
+        flex: 1,
+        backgroundColor: 'grey'
     },
-    background :{
-        flex:1,
+    buttonText: {
+        color: 'white',
+        fontSize: 20
+    },
+    background: {
+        flex: 1,
         paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0,
-        alignItems:'center',
-        justifyContent:'flex-end',
-        gap:5
+        gap: 5
     },
-    loginButton:{
-        width:'80%',
+    loginButton: {
+        width: '80%',
         backgroundColor: '#569DAA',
-        borderRadius:5,
-        padding:10,
-        alignItems:'center'
+        borderRadius: 5,
+        padding: 15,
+        alignItems: 'center'
     },
-    registerButton:{
-        width:'80%',
-        backgroundColor:"#577D86",
-        borderRadius:5,
-        padding:10,
-        alignItems:'center'
+    registerButton: {
+        width: '80%',
+        backgroundColor: "#577D86",
+        borderRadius: 5,
+        padding: 15,
+        alignItems: 'center'
     },
     input: {
-        width:'80%',
+        width: '80%',
         height: 40,
         margin: 12,
         borderWidth: 1,
         padding: 10,
         borderRadius: 5,
         backgroundColor: 'lightgrey'
+    },
+    header: {
+        flexDirection: "row",
+        height: 50,
+        width: '100%',
+        alignItems: 'center',
+        padding: 10
     }
 });
 

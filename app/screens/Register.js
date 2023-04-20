@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, TextInput, TouchableOpacity, Text, Button, View, StatusBar } from 'react-native';
-import {ref,  set, onValue,    push,    update,    remove  } from 'firebase/database';
-import {auth, db} from '../../firebaseConfig';
-import {useAuthState} from 'react-firebase-hooks/auth';
+import { ref, set, onValue, push, update, remove } from 'firebase/database';
+import { auth, db } from '../../firebaseConfig';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 import { QuerySnapshot, collection, onSnapshot, query, addDoc, where, getDocs, setDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 
 // import {db} from '../firebase/firebaseConfig';
 
-function Register({navigation, back}) {
+function Register({ navigation, back }) {
 
     const [userAuth] = useAuthState(auth);
     console.log(userAuth);
@@ -21,62 +21,63 @@ function Register({navigation, back}) {
     const [passwordConf, setPasswordConf] = useState('');
 
     const user = {
-        "uid":"uid",
-        "fname":fname,
-        "lname":lname,
-        "email":email,
-        accounts:[]
+        "uid": "uid",
+        "fname": fname,
+        "lname": lname,
+        "email": email,
+        accounts: []
     }
 
-    const handleRegister = async(e) => {
+    const handleRegister = async (e) => {
         createUserWithEmailAndPassword(auth, email, password).then((res) => {
             console.log(res);
             addUser(res);
         })
-        .catch((error) => {
-            console.log(error);
-        });
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
-    const addUser = async(res) => {
+    const addUser = async (res) => {
         user.uid = res.user.uid;
         const dbRef = collection(db, "passwordManager");
         console.log(user);
-        await addDoc(dbRef, user).then((res)=>{
+        await addDoc(dbRef, user).then((res) => {
             console.log(res);
         })
-        .catch((error)=>{
-            console.log(error);
-        });
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     // , where("uid", "===", "ANvoU2kvXrVRRRqTR1P2hl62MZH3")
 
-    useEffect(() =>{
-        async function getData(){
-            const q = query(collection(db, "passwordManager"), where("uid", "==", "ANvoU2kvXrVRRRqTR1P2hl62MZH3"));
-            const querySnapshot = await getDocs(q);
-                querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
-                //console.log(doc.id, " => ", doc.data().accounts);
-            });
-        }
-        
+    useEffect(() => {
+        // async function getData(){
+        //     const q = query(collection(db, "passwordManager"), where("uid", "==", "v3fNjxxSSQZvMSsc5pHwxJnnzWg2"));
+        //     const querySnapshot = await getDocs(q);
+        //         querySnapshot.forEach((doc) => {
+        //         // doc.data() is never undefined for query doc snapshots
+        //         console.log(doc.id, " => ", doc.data());
+
+        //     });
+        // }
+        // getData();
 
         const newApp = {
-            "app" : "facebook",
+            "app": "facebook",
             "username": "test2",
             "password": "test3"
         }
-        
-        async function setData(){
-            const ref = doc(db, "passwordManager","ANvoU2kvXrVRRRqTR1P2hl62MZH3");
+
+        async function setData() {
+            const ref = doc(db, "passwordManager", "ANvoU2kvXrVRRRqTR1P2hl62MZH3");
             await updateDoc(ref, {
                 accounts: arrayUnion(newApp)
             });
         }
 
-    },[])
+    }, [])
 
     return (
         <SafeAreaView style={styles.container}>
@@ -108,7 +109,7 @@ function Register({navigation, back}) {
                 onChangeText={setPassword}
                 secureTextEntry={true}
             />
-             <TextInput
+            <TextInput
                 style={styles.input}
                 value={passwordConf}
                 placeholder="Confirm Password"
@@ -118,20 +119,20 @@ function Register({navigation, back}) {
             <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
                 <Text style={styles.buttonText}>Create Account</Text>
             </TouchableOpacity>
-            <Button style={styles.cancelButton} color='white' title='Cancel' onPress={()=> navigation.goBack()}/>
+            <Button style={styles.cancelButton} color='white' title='Cancel' onPress={() => navigation.goBack()} />
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        justifyContent:'center',
-        alignItems:'center',
-        backgroundColor:'grey'
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'grey'
     },
     input: {
-        width:'80%',
+        width: '80%',
         height: 40,
         margin: 12,
         borderWidth: 1,
@@ -139,23 +140,23 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: 'lightgrey'
     },
-    registerButton:{
-        width:'80%',
-        backgroundColor:"#577D86",
-        borderRadius:5,
-        padding:10,
-        alignItems:'center'
+    registerButton: {
+        width: '80%',
+        backgroundColor: "#577D86",
+        borderRadius: 5,
+        padding: 10,
+        alignItems: 'center'
     },
-    header:{
-        height:40,
-        width:'100%',
-        position:'absolute',
-        backgroundColor:'red',
+    header: {
+        height: 40,
+        width: '100%',
+        position: 'absolute',
+        backgroundColor: 'red',
         top: StatusBar.currentHeight
-        
+
     },
-    cancelButton:{
-        backgroundColor:'red'
+    cancelButton: {
+        backgroundColor: 'red'
     }
 });
 
