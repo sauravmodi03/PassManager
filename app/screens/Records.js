@@ -11,7 +11,7 @@ function Records({ navigation, back }) {
 
     const [accounts, setAccounts] = useState([]);
     const [user] = useAuthState(auth);
-    console.log("USer is printed " + user.uid);
+    console.log("User is printed " + user.uid);
 
     async function getData() {
         const q = query(collection(db, "passwordManager"), where("uid", "==", user.uid));
@@ -26,12 +26,17 @@ function Records({ navigation, back }) {
         getData();
     }, []);
 
+    const showDetails = (acc) => {
+        // navigation.navigate("RecordDetail", acc);
+        console.log(acc);
+    }
+
     return (
         <SafeAreaView style={styles.constainer}>
             {accounts.map((account, i) =>
-                <View key={i} style={styles.accContainer}>
+                <TouchableOpacity key={i} style={styles.accContainer} onPress={() => navigation.navigate("RecordDetail", account)}>
                     <Text>{account.app}</Text>
-                </View>
+                </TouchableOpacity>
             )
             }
         </SafeAreaView>
@@ -41,7 +46,7 @@ function Records({ navigation, back }) {
 const styles = StyleSheet.create({
     constainer: {
         flex: 1,
-        backgroundColor: 'red',
+        backgroundColor: 'grey',
         alignItems: 'center',
         gap: 5,
         paddingTop: 100,

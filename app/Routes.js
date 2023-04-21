@@ -8,6 +8,7 @@ import Home from './screens/Home';
 import Accounts from './screens/Accounts';
 import AccountDetails from './screens/AccountDetails';
 import Records from './screens/Records';
+import RecordDetails from './screens/RecordDetails';
 
 function Routes(props) {
 
@@ -26,6 +27,7 @@ function Routes(props) {
         <Stack.Screen name='Accounts' component={Accounts} />
         <Stack.Screen name='AccountDetails' component={AccountDetails} />
         <Stack.Screen name='All Records' component={Records} />
+        <Stack.Screen name='RecordDetail' component={RecordDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );

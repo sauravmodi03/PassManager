@@ -33,11 +33,6 @@ function Login({ navigation, back }) {
         navigation.navigate("Home");
     }
 
-    // const googleSingin = () => {
-    //     const provider = new GoogleAuthProvider();
-    //     signInWithRedirect(auth, provider);
-    // }
-
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header} ><Text onPress={goBack} style={styles.backButton}>Back</Text></View>
