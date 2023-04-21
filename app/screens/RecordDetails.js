@@ -17,9 +17,14 @@ function RecordDetails(props) {
                 <Text onPress={() => props.navigation.navigate("All Records")} style={styles.backButton}>Back</Text>
             </View>
             <View style={styles.wrapper}>
-                <View styeles={styles.infoLabel}><Text>{account.app}</Text></View>
-                <View styeles={styles.infoLabel}><Text>{account.username}</Text></View>
-                <View styeles={styles.infoLabel}><Text>{account.password}</Text></View>
+                <View style={styles.info}>
+                    <Text style={styles.paramLabel}>Username:</Text>
+                    <Text>{account.username}</Text>
+                </View>
+                <View style={styles.info}>
+                    <Text style={[styles.paramLabel, styles.appFont]}>Password:</Text>
+                    <Text>{account.password}</Text>
+                </View>
             </View>
         </SafeAreaView>
     );
@@ -30,25 +35,35 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "grey"
     },
-    infoLabel: {
-        height: 40,
+    info: {
+        width: '70%',
         backgroundColor: "dodgerblue",
     },
     wrapper: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
-        gap: 5
+        gap: 10
     },
     header: {
         flexDirection: "row",
         height: 50,
         width: '100%',
         alignItems: 'center',
-        padding: 10
+        padding: 10,
+        justifyContent: 'space-between'
     },
     backButton: {
         fontSize: 25
+    },
+    appLabel: {
+        position: 'absolute',
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'center'
+    },
+    appFont: {
+        fontSize: 25,
+        color: 'white'
     }
 
 })

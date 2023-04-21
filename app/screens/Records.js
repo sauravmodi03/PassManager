@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { SafeAreaView, View } from 'react-native';
-import { query, collection, getDocs, where, onSnapshot, doc } from 'firebase/firestore';
+import { query, collection, getDocs, where, onSnapshot, doc, updateDoc, arrayRemove } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { db, auth } from '../../firebaseConfig';
+import { update } from 'firebase/database';
 
-function Records({ navigation, back }) {
+function Records({ navigation, back, route }) {
 
     const [accounts, setAccounts] = useState([]);
     const [user] = useAuthState(auth);
@@ -18,7 +19,6 @@ function Records({ navigation, back }) {
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             setAccounts(doc.data().accounts);
-            console.log(accounts);
         });
     }
 
@@ -28,31 +28,43 @@ function Records({ navigation, back }) {
         console.log("triggered");
         getData();
 
-        // const unsubscribe = onSnapshot(doc(db, "passwordManager", user.uid), (doc) => {
-        //     // if (doc.data().accounts != accounts) {
-        //     //setAccounts(doc.data().accounts);
-        //     // }
-        //     //setAccounts(doc.data().accounts);
-        // });
-        // unsubscribe();
-    }, []);
+        const unsubscribe = onSnapshot(doc(db, "passwordManager", user.uid), (doc) => {
+            getData();
+        });
+    }, [navigation]);
 
     const showDetails = (acc) => {
         // navigation.navigate("RecordDetail", acc);
         console.log(acc);
     }
 
+    const deleteRecord = async (account) => {
+        const ref = doc(db, 'passwordManager', user.uid);
+        await updateDoc(ref, {
+            accounts: arrayRemove(account)
+        }).then((res) => {
+            console.log(res);
+            Alert.alert('Response', 'Record Deleted succfully');
+        }).catch((err) => {
+            console.log(err);
+        });
+
+    }
+
     return (
-        <SafeAreaView style={styles.constainer}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <Text onPress={() => navigation.navigate("All Records")} style={styles.headerFont}>Back</Text>
                 <Text onPress={() => navigation.navigate("AddDoc")} style={styles.headerFont}>Add</Text>
             </View>
             <View style={styles.wrapper}>
                 {accounts.map((account, i) =>
-                    <TouchableOpacity key={i} style={styles.accContainer} onPress={() => navigation.navigate("RecordDetail", account)}>
-                        <Text>{account.app}</Text>
-                    </TouchableOpacity>
+                    <View key={i} style={styles.recordWrapper}>
+                        <TouchableOpacity style={styles.appDetail} onPress={() => navigation.navigate("RecordDetail", account)}>
+                            <Text>{account.app}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.deleteButton} onPress={() => deleteRecord(account)}><Text>Delete</Text></TouchableOpacity>
+                    </View>
                 )
                 }
             </View>
@@ -61,7 +73,7 @@ function Records({ navigation, back }) {
 }
 
 const styles = StyleSheet.create({
-    constainer: {
+    container: {
         flex: 1,
         backgroundColor: 'grey',
         gap: 5,
@@ -78,8 +90,8 @@ const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
-        gap: 5
+        gap: 5,
+        paddingTop: 20
     },
     header: {
         flexDirection: "row",
@@ -94,8 +106,25 @@ const styles = StyleSheet.create({
     headerFont: {
         fontSize: 25,
         color: 'white'
+    },
+    deleteButton: {
+        color: 'white',
+        backgroundColor: 'dodgerblue',
+        padding: 10,
+        borderRadius: 5
+    },
+    appDetail: {
+        width: '60%',
+        height: 40,
+        backgroundColor: 'dodgerblue',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5
+    },
+    recordWrapper: {
+        flexDirection: 'row',
+        gap: 5
     }
-
 });
 
 export default Records;

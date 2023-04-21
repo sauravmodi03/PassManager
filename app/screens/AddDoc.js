@@ -38,6 +38,8 @@ function AddDoc(props) {
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <Text onPress={() => props.navigation.navigate("All Records")} style={styles.headerFont}>Back</Text>
+                <Text style={styles.headerFont}>New Record</Text>
+                <Text onPress={addNewDoc} style={styles.headerFont}>Save</Text>
             </View>
             <View style={styles.wrapper}>
                 <TextInput
