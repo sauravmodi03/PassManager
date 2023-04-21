@@ -32,6 +32,7 @@ function Register({ navigation, back }) {
         createUserWithEmailAndPassword(auth, email, password).then((res) => {
             console.log(res);
             addUser(res);
+            navigation.navigate("All Records");
         })
             .catch((error) => {
                 console.log(error);
@@ -41,8 +42,7 @@ function Register({ navigation, back }) {
     const addUser = async (res) => {
         user.uid = res.user.uid;
         const dbRef = collection(db, "passwordManager");
-        console.log(user);
-        await addDoc(dbRef, user).then((res) => {
+        await setDoc(doc(db, "passwordManager", user.uid), user).then((res) => {
             console.log(res);
         })
             .catch((error) => {
@@ -153,7 +153,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         backgroundColor: 'red',
         top: StatusBar.currentHeight
-
     },
     cancelButton: {
         backgroundColor: 'red'
