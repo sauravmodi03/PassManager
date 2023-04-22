@@ -16,17 +16,20 @@ function RecordDetails(props) {
     return (
         <ImageBackground style={st.flexContainer} source={bgimage}>
             <SafeAreaView style={st.flexContainer}>
-                <View style={st.header}>
-                    <Text onPress={() => props.navigation.navigate("All Records")} style={styles.backButton}>Back</Text>
+                <View style={[st.header]}>
+                    <Text onPress={() => props.navigation.navigate("All Records")} style={st.font}>Back</Text>
+                    <Text style={st.font}>Record</Text>
+                    <Text style={st.font}>Edit</Text>
                 </View>
                 <View style={styles.wrapper}>
+                    <View><Text style={[st.font, styles.info]}>Title: {account.app}</Text></View>
                     <View style={styles.info}>
-                        <Text style={styles.paramLabel}>Username:</Text>
-                        <Text>{account.username}</Text>
+                        <Text style={st.font}>Username:</Text>
+                        <Text style={st.font}>{account.username}</Text>
                     </View>
                     <View style={styles.info}>
-                        <Text style={[styles.paramLabel, styles.appFont]}>Password:</Text>
-                        <Text>{account.password}</Text>
+                        <Text style={[st.font]}>Password:</Text>
+                        <Text style={[st.font]}>{account.password}</Text>
                     </View>
                 </View>
             </SafeAreaView>
@@ -35,41 +38,19 @@ function RecordDetails(props) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "grey"
+    wrapper: {
+        marginTop: 20,
+        width: '80%',
+        backgroundColor: '#344D67',
+        alignSelf: 'center',
+        padding: 20,
+        borderRadius: 10,
+        gap: 30
     },
     info: {
-        width: '70%',
-        backgroundColor: "dodgerblue",
-    },
-    wrapper: {
-        flex: 1,
-        alignItems: 'center',
-        gap: 10
-    },
-    header: {
-        flexDirection: "row",
-        height: 50,
-        width: '100%',
-        alignItems: 'center',
-        padding: 10,
-        justifyContent: 'space-between'
-    },
-    backButton: {
-        fontSize: 25
-    },
-    appLabel: {
-        position: 'absolute',
-        flexDirection: 'row',
-        width: '100%',
-        justifyContent: 'center'
-    },
-    appFont: {
-        fontSize: 25,
-        color: 'white'
+        borderBottomColor: '#393E46',
+        borderBottomWidth: 1
     }
-
 })
 
 export default RecordDetails;

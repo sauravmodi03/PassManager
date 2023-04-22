@@ -24,7 +24,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import Routes from './app/Routes';
+import StackRoutes from './app/StackRoutes';
 
 
 
@@ -36,7 +36,7 @@ function App(): JSX.Element {
   };
 
   return (
-    <Routes/>
+    <StackRoutes/>
   );
 }
 

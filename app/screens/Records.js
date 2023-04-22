@@ -15,7 +15,6 @@ function Records({ navigation, back, route }) {
 
     const [accounts, setAccounts] = useState([]);
     const [user] = useAuthState(auth);
-    console.log("User is printed " + user.uid);
 
     async function getData() {
         const q = query(collection(db, "passwordManager"), where("uid", "==", user.uid));
@@ -28,7 +27,6 @@ function Records({ navigation, back, route }) {
 
 
     useEffect(() => {
-        console.log("triggered");
         getData();
 
         const unsubscribe = onSnapshot(doc(db, "passwordManager", user.uid), (doc) => {
@@ -36,22 +34,39 @@ function Records({ navigation, back, route }) {
         });
     }, [navigation]);
 
-    const showDetails = (acc) => {
-        // navigation.navigate("RecordDetail", acc);
-        console.log(acc);
-    }
-
-    const deleteRecord = async (account) => {
+    const deleteEntry = async (account) => {
         const ref = doc(db, 'passwordManager', user.uid);
         await updateDoc(ref, {
             accounts: arrayRemove(account)
         }).then((res) => {
             console.log(res);
-            Alert.alert('Response', 'Record Deleted succfully');
+            Alert.alert('Response', account.app + ' account deleted successfully.');
         }).catch((err) => {
             console.log(err);
         });
 
+
+    }
+
+    const deleteRecord = (account) => {
+        Alert.alert(
+            'Delete ' + account.app,
+            'Are you sure you want to delete ' + account.app + ' account ?',
+            [
+                {
+                    text: 'Yes',
+                    onPress: () => deleteEntry(account),
+                    style: 'yes',
+                },
+                {
+                    text: 'No',
+                    style: 'no'
+                }
+            ],
+            {
+                cancelable: true,
+            },
+        );
     }
 
     return (
