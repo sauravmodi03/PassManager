@@ -1,33 +1,26 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, Dimensions, StatusBar, SafeAreaView, Button, Platform, TextInput, ImageBackground, TouchableOpacity } from 'react-native';
+import bgimage from '../img/bg.jpg';
+import { st } from '../components/Styles';
 
 
 
 function Home({ navigation }) {
 
-
-    const handleLogin = () => {
-        console.log('Handle login');
-    }
-
-    const handleRegister = () => {
-        console.log('Handle register');
-    }
-
     return (
-        <View style={styles.backgroundImage}>
+        <ImageBackground style={st.flexContainer} source={bgimage}>
             <SafeAreaView style={styles.background}>
                 <View style={styles.wrapper}>
                     <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate("Register")}>
-                        <Text style={styles.buttonText}>Create Account</Text>
+                        <Text style={st.font}>Create Account</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate("Login")}>
-                        <Text style={styles.buttonText}>Login</Text>
+                        <Text style={st.font}>Login</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
-        </View>
+        </ImageBackground>
     );
 }
 

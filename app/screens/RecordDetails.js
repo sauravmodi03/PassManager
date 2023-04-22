@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ImageBackground, StyleSheet, Text } from 'react-native';
 import { SafeAreaView, View } from 'react-native';
+import { st } from '../components/Styles';
+import bgimage from '../img/bg.jpg';
 
 function RecordDetails(props) {
 
@@ -12,21 +14,23 @@ function RecordDetails(props) {
     }, []);
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
-                <Text onPress={() => props.navigation.navigate("All Records")} style={styles.backButton}>Back</Text>
-            </View>
-            <View style={styles.wrapper}>
-                <View style={styles.info}>
-                    <Text style={styles.paramLabel}>Username:</Text>
-                    <Text>{account.username}</Text>
+        <ImageBackground style={st.flexContainer} source={bgimage}>
+            <SafeAreaView style={st.flexContainer}>
+                <View style={st.header}>
+                    <Text onPress={() => props.navigation.navigate("All Records")} style={styles.backButton}>Back</Text>
                 </View>
-                <View style={styles.info}>
-                    <Text style={[styles.paramLabel, styles.appFont]}>Password:</Text>
-                    <Text>{account.password}</Text>
+                <View style={styles.wrapper}>
+                    <View style={styles.info}>
+                        <Text style={styles.paramLabel}>Username:</Text>
+                        <Text>{account.username}</Text>
+                    </View>
+                    <View style={styles.info}>
+                        <Text style={[styles.paramLabel, styles.appFont]}>Password:</Text>
+                        <Text>{account.password}</Text>
+                    </View>
                 </View>
-            </View>
-        </SafeAreaView>
+            </SafeAreaView>
+        </ImageBackground>
     );
 }
 

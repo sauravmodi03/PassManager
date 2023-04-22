@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Button } from 'react-native';
+import { Button, ImageBackground } from 'react-native';
 import { SafeAreaView, TouchableOpacity } from 'react-native';
 import { View, TextInput, StyleSheet, Text } from 'react-native';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import bgimage from '../img/bg.jpg';
 
 import { auth } from '../../firebaseConfig';
+import { st } from '../components/Styles';
 
 function Login({ navigation, back }) {
 
@@ -34,39 +36,40 @@ function Login({ navigation, back }) {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.header} ><Text onPress={goBack} style={styles.backButton}>Back</Text></View>
-            <View style={styles.wrapper}>
-                <TextInput
-                    style={styles.input}
-                    value={username}
-                    placeholder='Username'
-                    onChangeText={setUsername} />
-                <TextInput
-                    style={styles.input}
-                    value={password}
-                    placeholder="Password"
-                    onChangeText={setPassword}
-                    secureTextEntry={true} />
-                <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-                    <Text style={styles.buttonText}>Login</Text>
-                </TouchableOpacity>
-                {/* <View><GoogleButton onClick={googleSingin} /></View> */}
-                <Button style={styles.cancelButton} color='white' title='Cancel' onPress={() => navigation.goBack()} />
-                <Text>{error}</Text>
-            </View>
-        </SafeAreaView>
+        <ImageBackground style={st.flexContainer} source={bgimage}>
+            <SafeAreaView style={[st.flexContainer]}>
+                <View style={st.header} ><Text onPress={goBack} style={[styles.backButton, st.whiteFont]}>Back</Text></View>
+                <View style={styles.wrapper}>
+                    <Text style={st.whiteFont}>Enter your credentials</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={username}
+                        placeholder='Username'
+                        onChangeText={setUsername} />
+                    <TextInput
+                        style={styles.input}
+                        value={password}
+                        placeholder="Password"
+                        onChangeText={setPassword}
+                        secureTextEntry={true} />
+                    <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+                        <Text style={[st.font]}>Login</Text>
+                    </TouchableOpacity>
+                    {/* <View><GoogleButton onClick={googleSingin} /></View> */}
+                    <Button style={styles.cancelButton} color='white' title='Cancel' onPress={() => navigation.goBack()} />
+                    <Text style={st.font}>{error}</Text>
+                </View>
+            </SafeAreaView>
+        </ImageBackground>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: 'grey',
+        flex: 1
     },
     loginButton: {
         width: '80%',
-        height: 40,
         backgroundColor: '#569DAA',
         borderRadius: 5,
         padding: 10,
@@ -74,12 +77,13 @@ const styles = StyleSheet.create({
     },
     input: {
         width: '80%',
-        height: 40,
+        height: 50,
         margin: 12,
         borderWidth: 1,
         padding: 10,
         borderRadius: 5,
-        backgroundColor: 'lightgrey'
+        backgroundColor: 'lightgrey',
+        fontSize: 20
     },
     wrapper: {
         flex: 1,
