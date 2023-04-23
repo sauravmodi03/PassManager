@@ -1,57 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { db, auth } from '../../firebaseConfig';
-import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, TextInput, StyleSheet, Text, View, ImageBackground, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { st } from '../components/Styles';
 import bgimage from '../img/bg.jpg';
 
-function AddDoc(props) {
+function EditDoc(props) {
 
     const [user] = useAuthState(auth);
 
     const [app, setApp] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [account, setAccount] = useState({});
 
-    const newApp = {
+    const doc = {
         "app": app,
         "username": username,
         "password": password
     }
 
     useEffect(() => {
-        if (props.account != undefined) {
-            setAccount(account);
+        console.log(props.route.params);
+        if (props.route.params != undefined) {
+            setAccount(props.route.params);
+            setApp(account.app);
+            setUsername(account.username);
+            setPassword(account.password);
         }
-    })
+    }, [account]);
 
-    const addNewDoc = async () => {
+    const updateDoc = async () => {
         if (app == "" || username == "" || password == "") {
             Alert.alert('Missing data', 'Please fill all the fields');
         } else {
             const ref = doc(db, "passwordManager", user.uid);
             await updateDoc(ref, {
-                accounts: arrayUnion(newApp)
+                accounts: arrayRemove(account)
             }).then((res) => {
-                console.log('Successfully added new doc', res);
+                console.log('Successfully updated doc', res);
                 props.navigation.navigate("All Records");
             })
                 .catch((err) => {
-                    console.log('Error occured', err);
+                    console.log('Error occured while updating document.', err);
                 });
         }
     }
+
 
     return (
         <ImageBackground style={st.flexContainer} source={bgimage}>
             <SafeAreaView style={st.flexContainer}>
                 <View style={st.header}>
-                    <Text onPress={() => props.navigation.navigate("All Records")} style={st.font}>Back</Text>
-                    <Text style={st.font}>New Record</Text>
-                    <Text onPress={addNewDoc} style={st.font}>Save</Text>
+                    <Text onPress={() => props.navigation.goBack()} style={st.font}>Back</Text>
+                    <Text style={st.font}>Edit Record</Text>
+                    <Text onPress={updateDoc} style={st.font}>Save</Text>
                 </View>
                 <View style={styles.wrapper}>
                     <TextInput
@@ -73,8 +79,8 @@ function AddDoc(props) {
                         onChangeText={setPassword}
                         secureTextEntry={true}
                     />
-                    <TouchableOpacity style={styles.registerButton} onPress={addNewDoc}>
-                        <Text style={st.font}>Add Account</Text>
+                    <TouchableOpacity style={styles.registerButton} onPress={updateDoc}>
+                        <Text style={st.font}>Update Account</Text>
                     </TouchableOpacity>
                     <Button style={styles.cancelButton} color='white' title='Cancel' onPress={() => props.navigation.goBack()} />
                 </View>
@@ -119,4 +125,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default AddDoc;
+export default EditDoc;

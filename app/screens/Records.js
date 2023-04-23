@@ -25,10 +25,8 @@ function Records({ navigation, back, route }) {
     }
 
 
-
     useEffect(() => {
         getData();
-
         const unsubscribe = onSnapshot(doc(db, "passwordManager", user.uid), (doc) => {
             getData();
         });
@@ -39,7 +37,6 @@ function Records({ navigation, back, route }) {
         await updateDoc(ref, {
             accounts: arrayRemove(account)
         }).then((res) => {
-            console.log(res);
             Alert.alert('Response', account.app + ' account deleted successfully.');
         }).catch((err) => {
             console.log(err);

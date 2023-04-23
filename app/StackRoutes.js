@@ -10,6 +10,7 @@ import AccountDetails from './screens/AccountDetails';
 import Records from './screens/Records';
 import RecordDetails from './screens/RecordDetails';
 import AddDoc from './screens/AddDoc';
+import EditDoc from './screens/EditDoc';
 
 function Routes(props) {
 
@@ -30,6 +31,7 @@ function Routes(props) {
         <Stack.Screen name='All Records' component={Records} />
         <Stack.Screen name='RecordDetail' component={RecordDetails} />
         <Stack.Screen name='AddDoc' component={AddDoc} />
+        <Stack.Screen name='EditDoc' component={EditDoc} />
       </Stack.Navigator>
     </NavigationContainer>
   );

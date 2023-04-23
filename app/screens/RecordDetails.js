@@ -19,7 +19,7 @@ function RecordDetails(props) {
                 <View style={[st.header]}>
                     <Text onPress={() => props.navigation.navigate("All Records")} style={st.font}>Back</Text>
                     <Text style={st.font}>Record</Text>
-                    <Text style={st.font}>Edit</Text>
+                    <Text onPress={() => props.navigation.navigate("EditDoc", account)} style={st.font}>Edit</Text>
                 </View>
                 <View style={styles.wrapper}>
                     <View><Text style={[st.font, styles.info]}>Title: {account.app}</Text></View>
