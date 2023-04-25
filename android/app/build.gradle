@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.passmanager"
+    namespace "com.passwordmanager"
     defaultConfig {
-        applicationId "com.passmanager"
+        applicationId "com.passwordmanager"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
